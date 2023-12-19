@@ -5,21 +5,21 @@
 			"login": "MRX",
 			"password": 777,
 			"role_id": 0,
-			"egistered_at": "2024-01-01"
+			"registered_at": "2024-01-01"
 		},
 		{
 			"id": 1,
 			"login": "snowman",
 			"password": 111,
 			"role_id": 1,
-			"egistered_at": "2024-02-25"
+			"registered_at": "2024-02-25"
 		},
 		{
 			"id": 2,
 			"login": "epicmaster",
 			"password": 123,
 			"role_id": 2,
-			"egistered_at": "2024-05-30"
+			"registered_at": "2024-05-30"
 		}
 	],
 	"roles": [
