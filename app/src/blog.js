@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import { Header } from './components/header/header';
+import { Footer } from './components/footer/footer';
 
 const AppContainer = styled.div`
 	display: flex;
@@ -20,8 +21,6 @@ const H2 = styled.h2`
 	text-align: center;
 `;
 
-const Footer = () => <div>Footer</div>;
-
 export const Blog = () => {
 	return (
 		<AppContainer>
@@ -38,7 +37,7 @@ export const Blog = () => {
 					<Route path="*" element={<div>Ошибка</div>} />
 				</Routes>
 			</Content>
-			<Footer></Footer>
+			<Footer />
 		</AppContainer>
 	);
 };
