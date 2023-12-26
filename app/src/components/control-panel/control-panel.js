@@ -31,7 +31,7 @@ const ControlPanelContainer = ({ className }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
-	console.log(user);
+	console.log('control-panel ', user);
 
 	return (
 		<div className={className}>

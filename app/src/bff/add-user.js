@@ -1,6 +1,6 @@
 import { getRandomDate } from './get-random-date';
 
-export const addUser = (login, password) => {
+export const addUser = (login, password) =>
 	fetch('http://localhost:3004/users', {
 		method: 'POST',
 		headers: {
@@ -12,5 +12,4 @@ export const addUser = (login, password) => {
 			role_id: 2,
 			registered_at: getRandomDate(),
 		}),
-	});
-};
+	}).then((createdUser) => createdUser.json());

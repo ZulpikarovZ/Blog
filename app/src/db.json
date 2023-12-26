@@ -20,6 +20,20 @@
 			"password": 123123,
 			"role_id": 2,
 			"registered_at": "2024-05-30"
+		},
+		{
+			"login": "MRXnew",
+			"password": "123123",
+			"role_id": 2,
+			"registered_at": "2582-10-30T04:55",
+			"id": 3
+		},
+		{
+			"login": "MRX1",
+			"password": "123123",
+			"role_id": 2,
+			"registered_at": "2600-07-01T05:05",
+			"id": 4
 		}
 	],
 	"roles": [
