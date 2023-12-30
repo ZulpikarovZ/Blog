@@ -13,7 +13,7 @@ const FooterContainer = ({ className }) => {
 			.then((data) => data.json())
 			.then(({ name, main, weather }) => {
 				setSity(name);
-				setTemp(Math.round(main.temp));
+				setTemp(Math.round(main.temp - 273.15));
 				setWeather(weather[0].description);
 			});
 	}, []);
@@ -48,6 +48,6 @@ export const Footer = styled(FooterContainer)`
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px 40px;
-	// background-color: #fff;
+	background-color: #fff;
 	box-shadow: 0 2px 17px #000;
 `;

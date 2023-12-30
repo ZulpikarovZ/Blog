@@ -4,16 +4,13 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { server } from '../../bff/server';
 import styled from 'styled-components';
-import { Input } from '../../components/input/input';
 import { Link, Navigate } from 'react-router-dom';
-import { H2 } from '../../components/h2/h2';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../redux/actions/actionCreaters';
 import { selectUser } from '../../redux/selectors';
 import { ROLE } from '../../constants/role';
-import { AuthButton } from '../../components/button/auth-button';
-import { useResetForm } from '../../hooks/use-reset-form';
-import { AuthFormError } from '../../components/auth-form-error/auth-form-error';
+import { AuthFormError, AuthButton, Input, H2 } from '../../components';
+import { useResetForm } from '../../hooks';
 
 const authFormSchema = yup.object().shape({
 	login: yup
@@ -59,7 +56,7 @@ const AuthorizationContainer = ({ className }) => {
 	useResetForm(reset);
 
 	const onSubmit = ({ login, password }) => {
-		server.autorize(login, password).then(({ error, res }) => {
+		server.authorize(login, password).then(({ error, res }) => {
 			if (error) {
 				setServerError(`Ошибка запроса: ${error}`);
 				return;

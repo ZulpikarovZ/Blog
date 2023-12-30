@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { Logo } from './components/logo/logo';
-import { Description } from '../description/description';
-import { ControlPanel } from '../control-panel/control-panel';
+
+import { ControlPanel, Description, Logo } from '../';
 
 const HeaderContainer = ({ className }) => {
 	return (

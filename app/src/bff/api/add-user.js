@@ -1,4 +1,5 @@
-import { getRandomDate } from './get-random-date';
+import { ROLE } from '../../constants/role';
+import { getRandomDate } from '../utils';
 
 export const addUser = (login, password) =>
 	fetch('http://localhost:3004/users', {
@@ -9,7 +10,7 @@ export const addUser = (login, password) =>
 		body: JSON.stringify({
 			login: login,
 			password: password,
-			role_id: 2,
+			role_id: ROLE.READER,
 			registered_at: getRandomDate(),
 		}),
 	}).then((createdUser) => createdUser.json());
