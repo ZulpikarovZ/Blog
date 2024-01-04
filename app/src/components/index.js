@@ -12,3 +12,6 @@ export * from './logo/logo';
 export * from './styled-user-row/styled-user-row';
 export * from './user-item/user-item';
 export * from './content/content';
+export * from './post-content/post-content';
+export * from './comments/comments';
+export * from './comment/comment';

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon } from '../';
 import { ROLE } from '../../constants/role';
-import { logout } from '../../redux/actions/actionCreaters';
+import { logout } from '../../redux/actions';
 import { selectUser } from '../../redux/selectors';
 
 const RightAligned = styled.div`
@@ -26,7 +26,11 @@ const ControlPanelContainer = ({ className }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
-	console.log('control-panel ', user);
+
+	const onLogout = () => {
+		dispatch(logout(user.session));
+		sessionStorage.removeItem('userData');
+	};
 
 	return (
 		<div className={className}>
@@ -38,11 +42,7 @@ const ControlPanelContainer = ({ className }) => {
 				) : (
 					<>
 						<span>{user.login}</span>
-						<Icon
-							id="fa-sign-out"
-							margin="0 0 0 10px"
-							onClick={() => dispatch(logout(user.session))}
-						/>
+						<Icon id="fa-sign-out" margin="0 0 0 10px" onClick={onLogout} />
 					</>
 				)}
 			</RightAligned>

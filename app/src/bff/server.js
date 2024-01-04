@@ -6,6 +6,8 @@ import {
 	fetchRoles,
 	updateUserRole,
 	removeUser,
+	fetchPost,
+	addPostComment,
 } from './operations';
 
 export const server = {
@@ -16,4 +18,6 @@ export const server = {
 	fetchRoles,
 	updateUserRole,
 	removeUser,
+	fetchPost,
+	addPostComment,
 };

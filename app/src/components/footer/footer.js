@@ -39,8 +39,9 @@ const FooterContainer = ({ className }) => {
 };
 
 export const Footer = styled(FooterContainer)`
-	position: fixed;
-	bottom: 0;
+	// position: fixed;
+	// bottom: 0;
+	// background-color: #fff;
 	width: 1000px;
 	height: 120px;
 	font-weight: bold;
@@ -48,6 +49,5 @@ export const Footer = styled(FooterContainer)`
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px 40px;
-	background-color: #fff;
 	box-shadow: 0 2px 17px #000;
 `;

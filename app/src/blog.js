@@ -1,7 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import { Authorization, Registration, Users } from './pages';
+import { Authorization, Registration, Users, Post } from './pages';
 import { Footer, Header } from './components';
+import { useLayoutEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from './redux/actions';
 
 const AppContainer = styled.div`
 	display: flex;
@@ -13,25 +16,38 @@ const AppContainer = styled.div`
 	margin: auto;
 `;
 
-const Content = styled.div`
-	padding: 120px 0;
+const Page = styled.div`
+	padding: 120px 0 0 0;
 `;
 
 export const Blog = () => {
+	const dispatch = useDispatch();
+
+	useLayoutEffect(() => {
+		const currentUserData = JSON.parse(sessionStorage.getItem('userData'));
+		console.log(currentUserData);
+
+		if (!currentUserData) {
+			return;
+		}
+
+		dispatch(setUser({ ...currentUserData, roleId: Number(currentUserData.id) }));
+	}, [dispatch]);
+
 	return (
 		<AppContainer>
 			<Header />
-			<Content>
+			<Page>
 				<Routes>
 					<Route path="/" element={<div>Главная страница</div>} />
 					<Route path="/login" element={<Authorization />} />
 					<Route path="/register" element={<Registration />} />
 					<Route path="/users" element={<Users />} />
-					<Route path="/post" element={<div>Статья</div>} />
-					<Route path="/post/post:id" element={<div>Новая статья</div>} />
+					<Route path="/post" element={<div>Новая статья</div>} />
+					<Route path="/post/:id" element={<Post />} />
 					<Route path="*" element={<div>Ошибка</div>} />
 				</Routes>
-			</Content>
+			</Page>
 			<Footer />
 		</AppContainer>
 	);

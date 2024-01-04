@@ -6,7 +6,7 @@ export const useServerRequest = () => {
 	const session = useSelector(selectUserSession);
 
 	return (operation, ...params) => {
-		const request = ['register', 'authorize'].includes(operation)
+		const request = ['register', 'authorize', 'fetchPost'].includes(operation)
 			? params
 			: [session, ...params];
 

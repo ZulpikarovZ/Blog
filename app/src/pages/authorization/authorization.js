@@ -6,7 +6,7 @@ import { server } from '../../bff/server';
 import styled from 'styled-components';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../../redux/actions/actionCreaters';
+import { setUser } from '../../redux/actions';
 import { selectUser } from '../../redux/selectors';
 import { ROLE } from '../../constants/role';
 import { AuthFormError, AuthButton, Input, H2 } from '../../components';
@@ -63,6 +63,7 @@ const AuthorizationContainer = ({ className }) => {
 			}
 
 			dispatch(setUser(res));
+			sessionStorage.setItem('userData', JSON.stringify(res));
 		});
 	};
 
