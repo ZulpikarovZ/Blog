@@ -15,3 +15,4 @@ export * from './content/content';
 export * from './post-content/post-content';
 export * from './comments/comments';
 export * from './comment/comment';
+export * from './modal/modal';

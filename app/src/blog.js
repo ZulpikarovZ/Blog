@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import { Authorization, Registration, Users, Post } from './pages';
-import { Footer, Header } from './components';
+import { Footer, Header, Modal } from './components';
 import { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser } from './redux/actions';
@@ -25,7 +25,7 @@ export const Blog = () => {
 
 	useLayoutEffect(() => {
 		const currentUserData = JSON.parse(sessionStorage.getItem('userData'));
-		console.log(currentUserData);
+		console.log('currentUserData', currentUserData);
 
 		if (!currentUserData) {
 			return;
@@ -49,6 +49,7 @@ export const Blog = () => {
 				</Routes>
 			</Page>
 			<Footer />
+			<Modal />
 		</AppContainer>
 	);
 };

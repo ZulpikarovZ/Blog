@@ -14,6 +14,11 @@ const CommentsCotainer = ({ className, comments, postId }) => {
 	const serverRequest = useServerRequest();
 
 	const onNewCommentAdd = (postId, userId, content) => {
+		if (!newComment.trim()) {
+			setNewComment('');
+			return;
+		}
+
 		dispatch(addCommentAsync(serverRequest, postId, userId, content));
 		setNewComment('');
 	};
@@ -36,7 +41,7 @@ const CommentsCotainer = ({ className, comments, postId }) => {
 			</div>
 			<div className="comments">
 				{comments.map((comment) => (
-					<Comment key={comment.id} comment={comment} />
+					<Comment key={comment.id} comment={comment} postId={postId} />
 				))}
 			</div>
 		</div>

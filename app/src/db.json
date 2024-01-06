@@ -38,7 +38,7 @@
     {
       "login": "player1",
       "password": 123123,
-      "role_id": 2,
+      "role_id": 1,
       "registered_at": "2024-05-30 10:10",
       "id": 5
     }
@@ -161,11 +161,25 @@
       "content": "new comment",
       "published_at": "2603-05-09 14:15",
       "id": "dsTxFVb"
+    },
+    {
+      "author_id": 1,
+      "post_id": 4,
+      "content": "я тоже оставлю комментарий",
+      "published_at": "2587-04-25 18:50",
+      "id": "XzF87xc"
+    },
+    {
+      "author_id": 0,
+      "post_id": 5,
+      "content": "Почему нет комментария?",
+      "published_at": "2597-01-08 22:32",
+      "id": "miVScNN"
     }
   ],
   "sessions": [
     {
-      "hash": "0.79598128543260981970774992078077048063278198242188",
+      "hash": "0.59270882990592888006631255848333239555358886718750",
       "user": {
         "id": 0,
         "login": "MRX",
