@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 import { Icon } from '../icon/icon';
+import { useNavigate } from 'react-router-dom';
 
 const PostContentCotainer = ({ className, post }) => {
+	const navigate = useNavigate();
+	const onEdit = () => {
+		navigate(`/post/${post.id}/edit`);
+	};
+
 	return (
 		<div className={className}>
-			<img src={post.imageUrl} alt={post.title}></img>
+			<img src={post.imageUrl || post.image_url} alt={post.title}></img>
 			<h2>{post.title}</h2>
 			<div className="special-panel">
 				<div className="panel-item">
@@ -12,7 +18,12 @@ const PostContentCotainer = ({ className, post }) => {
 					<div className="published">{post.publishedAt}</div>
 				</div>
 				<div className="panel-item">
-					<Icon id="fa-pencil-square-o" size="20px" margin="0 10px 0 0" />
+					<Icon
+						id="fa-pencil-square-o"
+						size="20px"
+						margin="0 10px 0 0"
+						onClick={onEdit}
+					/>
 					<Icon id="fa-trash-o" size="20px" />
 				</div>
 			</div>

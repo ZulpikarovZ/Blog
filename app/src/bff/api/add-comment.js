@@ -1,4 +1,4 @@
-import { getRandomDate } from '../utils';
+import { getRandomDate } from '../../utils';
 
 export const addComment = (postId, userId, content) =>
 	fetch('http://localhost:3004/comments', {

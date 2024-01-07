@@ -1,5 +1,5 @@
 import { ROLE } from '../../constants/role';
-import { getRandomDate } from '../utils';
+import { getRandomDate } from '../../utils';
 
 export const addUser = (login, password) =>
 	fetch('http://localhost:3004/users', {
