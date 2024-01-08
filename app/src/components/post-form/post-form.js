@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Icon } from '../icon/icon';
 import { Input } from '../input/input';
-import { useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { sanitizeContent } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { useServerRequest } from '../../hooks';
@@ -14,26 +14,29 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const PostFormCotainer = ({ className, post }) => {
-	const imageUrlRef = useRef(null);
-	const titleRef = useRef(null);
+	const [imageUrlValue, setImageUrlValue] = useState(post?.imageUrl);
+	const [postTitleValue, setPostTitleValue] = useState(post?.title);
 	const contentRef = useRef(null);
 	const serverRequest = useServerRequest();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	useLayoutEffect(() => {
+		setImageUrlValue(post.imageUrl);
+		setPostTitleValue(post.title);
+	}, [post.imageUrl, post.title]);
+
 	const onPostSave = () => {
-		const newImageUrlRef = imageUrlRef.current.value;
-		const newtitleRef = titleRef.current.value;
 		const newcontentRef = sanitizeContent(contentRef.current.innerHTML);
 
 		dispatch(
 			savePostAsync(serverRequest, {
 				id: post.id,
-				imageUrl: newImageUrlRef,
-				title: newtitleRef,
+				imageUrl: imageUrlValue,
+				title: postTitleValue,
 				content: newcontentRef,
 			}),
-		).then(() => navigate(`/post/${post.id}`));
+		).then(({ id }) => navigate(`/post/${id}`));
 	};
 
 	const onPostRemove = (postId) => {
@@ -54,31 +57,36 @@ const PostFormCotainer = ({ className, post }) => {
 	return (
 		<div className={className}>
 			<Input
-				ref={imageUrlRef}
-				defaultValue={post.imageUrl}
+				value={imageUrlValue}
 				placeholder="Изображение..."
+				onChange={({ target }) => setImageUrlValue(target.value)}
 			/>
-			<Input ref={titleRef} defaultValue={post.title} placeholder="Заголовок..." />
+			<Input
+				value={postTitleValue}
+				placeholder="Заголовок..."
+				onChange={({ target }) => setPostTitleValue(target.value)}
+			/>
 			<div className="special-panel">
 				<div className="panel-item">
-					<Icon id="fa-calendar-o" size="20px" margin="0 10px 0 0" />
+					{post.publishedAt && (
+						<Icon id="fa-calendar-o" size="20px" margin="0 10px 0 0" />
+					)}
 					<div className="published">{post.publishedAt}</div>
 				</div>
 				<div className="panel-item">
-					<Icon
-						id="fa-floppy-o"
-						size="20px"
-						margin="0 10px 0 0"
-						onClick={onPostSave}
-					/>
-					<Icon
-						id="fa-trash-o"
-						size="20px"
-						onClick={() => onPostRemove(post.id)}
-					/>
+					<Icon id="fa-floppy-o" size="20px" onClick={onPostSave} />
+					{post.publishedAt && (
+						<Icon
+							id="fa-trash-o"
+							size="20px"
+							margin="0 0 0 10px"
+							onClick={() => onPostRemove(post.id)}
+						/>
+					)}
 				</div>
 			</div>
 			<div
+				className="content"
 				ref={contentRef}
 				contentEditable="true"
 				suppressContentEditableWarning="true"
@@ -115,5 +123,10 @@ export const PostForm = styled(PostFormCotainer)`
 
 	& .published {
 		margin-top: 2px;
+	}
+
+	& .content {
+		min-height: 80px;
+		outline: 1px solid #000;
 	}
 `;
