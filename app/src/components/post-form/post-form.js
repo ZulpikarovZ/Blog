@@ -5,15 +5,20 @@ import { useRef } from 'react';
 import { sanitizeContent } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { useServerRequest } from '../../hooks';
-import { savePostAsync } from '../../redux/actions';
+import {
+	closeModal,
+	openModal,
+	removePostAsync,
+	savePostAsync,
+} from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 
 const PostFormCotainer = ({ className, post }) => {
 	const imageUrlRef = useRef(null);
 	const titleRef = useRef(null);
 	const contentRef = useRef(null);
-	const dispatch = useDispatch();
 	const serverRequest = useServerRequest();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const onPostSave = () => {
@@ -29,6 +34,21 @@ const PostFormCotainer = ({ className, post }) => {
 				content: newcontentRef,
 			}),
 		).then(() => navigate(`/post/${post.id}`));
+	};
+
+	const onPostRemove = (postId) => {
+		dispatch(
+			openModal({
+				text: 'Удалить статью?',
+				onConfirm: () => {
+					dispatch(removePostAsync(serverRequest, postId)).then(() =>
+						navigate('/'),
+					);
+					dispatch(closeModal());
+				},
+				onCancel: () => dispatch(closeModal()),
+			}),
+		);
 	};
 
 	return (
@@ -51,7 +71,11 @@ const PostFormCotainer = ({ className, post }) => {
 						margin="0 10px 0 0"
 						onClick={onPostSave}
 					/>
-					<Icon id="fa-trash-o" size="20px" />
+					<Icon
+						id="fa-trash-o"
+						size="20px"
+						onClick={() => onPostRemove(post.id)}
+					/>
 				</div>
 			</div>
 			<div

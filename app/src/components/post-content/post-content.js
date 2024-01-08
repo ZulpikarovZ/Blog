@@ -1,16 +1,33 @@
 import styled from 'styled-components';
 import { Icon } from '../icon/icon';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { closeModal, openModal, removePostAsync } from '../../redux/actions';
+import { useServerRequest } from '../../hooks';
 
 const PostContentCotainer = ({ className, post }) => {
+	const serverRequest = useServerRequest();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const onEdit = () => {
-		navigate(`/post/${post.id}/edit`);
+
+	const onPostRemove = (postId) => {
+		dispatch(
+			openModal({
+				text: 'Удалить статью?',
+				onConfirm: () => {
+					dispatch(removePostAsync(serverRequest, postId)).then(() =>
+						navigate('/'),
+					);
+					dispatch(closeModal());
+				},
+				onCancel: () => dispatch(closeModal()),
+			}),
+		);
 	};
 
 	return (
 		<div className={className}>
-			<img src={post.imageUrl || post.image_url} alt={post.title}></img>
+			<img src={post.imageUrl} alt={post.title}></img>
 			<h2>{post.title}</h2>
 			<div className="special-panel">
 				<div className="panel-item">
@@ -22,9 +39,13 @@ const PostContentCotainer = ({ className, post }) => {
 						id="fa-pencil-square-o"
 						size="20px"
 						margin="0 10px 0 0"
-						onClick={onEdit}
+						onClick={() => navigate(`/post/${post.id}/edit`)}
 					/>
-					<Icon id="fa-trash-o" size="20px" />
+					<Icon
+						id="fa-trash-o"
+						size="20px"
+						onClick={() => onPostRemove(post.id)}
+					/>
 				</div>
 			</div>
 			<div>{post.content}</div>
