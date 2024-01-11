@@ -17,3 +17,4 @@ export * from './comments/comments';
 export * from './comment/comment';
 export * from './modal/modal';
 export * from './post-form/post-form';
+export * from './post-card/post-card';
