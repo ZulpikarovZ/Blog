@@ -1,22 +1,24 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import { useServerRequest } from '../../hooks';
-import { PostCard } from '../../components';
+import { Pagination, PostCard } from '../../components';
+import { PAGINATION_LIMIT } from '../../constants/pagination-limit';
+import { getLastPageFromLinks } from '../../utils';
 
 const MainContainer = ({ className }) => {
-	const [posts, setPosts] = useState([]);
 	const serverRequest = useServerRequest();
+	const [posts, setPosts] = useState([]);
+	const [page, setPage] = useState(1);
+	const [lastPage, setLastPage] = useState(1);
+	console.log('posts ', posts);
 
 	useEffect(() => {
-		serverRequest('fetchPosts').then((posts) => {
-			if (posts.error) {
-				return;
-			}
-
-			setPosts(posts.res);
+		serverRequest('fetchPosts', page, PAGINATION_LIMIT).then((posts) => {
+			setPosts(posts.res.getPostsFromServer);
+			setLastPage(getLastPageFromLinks(posts.res.links));
 		});
 		// eslint-disable-next-line
-	}, []);
+	}, [page]);
 
 	return (
 		<div className={className}>
@@ -25,15 +27,27 @@ const MainContainer = ({ className }) => {
 					<PostCard key={post.id} post={post} />
 				))}
 			</div>
+			{lastPage > 1 && (
+				<Pagination
+					page={page}
+					setPage={setPage}
+					lastPage={lastPage}
+					setLastPage={setLastPage}
+				/>
+			)}
 		</div>
 	);
 };
 
 export const Main = styled(MainContainer)`
+	// display: flex;
+	// align-items: center;
+	// justify-content: center;
+	// width: 200px;
+
 	& .post-list {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
 		padding: 20px;
 	}
 `;
