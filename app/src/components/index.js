@@ -19,3 +19,4 @@ export * from './modal/modal';
 export * from './post-form/post-form';
 export * from './post-card/post-card';
 export * from './pagination/pagination';
+export * from './search/search';

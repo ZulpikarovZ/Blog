@@ -10,6 +10,7 @@ const AppContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	position: relative;
 	min-height: 100%;
 	width: 1000px;
 	background-color: #fff;
