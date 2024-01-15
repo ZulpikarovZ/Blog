@@ -1,5 +1,6 @@
 import { ROLE } from '../../constants/role';
-import { addComment, getComments, getPost, getUsers } from '../api';
+import { getPostCommentsWithAuthor } from '../../utils';
+import { addComment, getPost } from '../api';
 import { sessions } from '../sessions';
 
 export const addPostComment = async (hash, postId, userId, content) => {
@@ -17,17 +18,8 @@ export const addPostComment = async (hash, postId, userId, content) => {
 	await addComment(postId, userId, content);
 
 	const post = await getPost(postId);
-	const comments = await getComments(postId);
-	const users = await getUsers();
 
-	const commentWithAuthors = comments.map((comment) => {
-		const user = users.find((user) => user.id === comment.authorId);
-
-		return {
-			...comment,
-			author: user.login,
-		};
-	});
+	const commentWithAuthors = await getPostCommentsWithAuthor(postId);
 
 	return {
 		error: null,

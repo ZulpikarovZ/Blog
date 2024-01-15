@@ -1,14 +1,19 @@
 import styled from 'styled-components';
 import { Icon } from '../icon/icon';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal, removePostAsync } from '../../redux/actions';
 import { useServerRequest } from '../../hooks';
+import { checkAccess } from '../../utils/check-access';
+import { ROLE } from '../../constants';
+import { selectUserRoleId } from '../../redux/selectors';
 
 const PostContentCotainer = ({ className, post }) => {
 	const serverRequest = useServerRequest();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const userRole = useSelector(selectUserRoleId);
+	const isAdmin = checkAccess([ROLE.ADMIN], userRole);
 
 	const onPostRemove = (postId) => {
 		dispatch(
@@ -34,19 +39,21 @@ const PostContentCotainer = ({ className, post }) => {
 					<Icon id="fa-calendar-o" size="20px" margin="0 10px 0 0" />
 					<div className="published">{post.publishedAt}</div>
 				</div>
-				<div className="panel-item">
-					<Icon
-						id="fa-pencil-square-o"
-						size="20px"
-						margin="0 10px 0 0"
-						onClick={() => navigate(`/post/${post.id}/edit`)}
-					/>
-					<Icon
-						id="fa-trash-o"
-						size="20px"
-						onClick={() => onPostRemove(post.id)}
-					/>
-				</div>
+				{isAdmin && (
+					<div className="panel-item">
+						<Icon
+							id="fa-pencil-square-o"
+							size="20px"
+							margin="0 10px 0 0"
+							onClick={() => navigate(`/post/${post.id}/edit`)}
+						/>
+						<Icon
+							id="fa-trash-o"
+							size="20px"
+							onClick={() => onPostRemove(post.id)}
+						/>
+					</div>
+				)}
 			</div>
 			<div>{post.content}</div>
 		</div>
@@ -54,6 +61,8 @@ const PostContentCotainer = ({ className, post }) => {
 };
 
 export const PostContent = styled(PostContentCotainer)`
+	margin-bottom: 20px;
+
 	& img {
 		float: left;
 		margin: 0px 20px 14px 0;

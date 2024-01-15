@@ -5,6 +5,7 @@ import { Button, Icon } from '../';
 import { ROLE } from '../../constants/role';
 import { logout } from '../../redux/actions';
 import { selectUser } from '../../redux/selectors';
+import { checkAccess } from '../../utils/check-access';
 
 const RightAligned = styled.div`
 	display: flex;
@@ -26,6 +27,7 @@ const ControlPanelContainer = ({ className }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectUser);
+	const isAdmin = checkAccess([ROLE.ADMIN], user.roleId);
 
 	const onLogout = () => {
 		dispatch(logout(user.session));
@@ -52,12 +54,20 @@ const ControlPanelContainer = ({ className }) => {
 					margin="10px 15px 0 0"
 					onClick={() => navigate(-1)}
 				/>
-				<Link to="/post">
-					<Icon id="fa-file-text-o" margin="10px 15px 0 0" onClick={() => {}} />
-				</Link>
-				<Link to="/users">
-					<Icon id="fa-users" margin="10px 0 0 0" onClick={() => {}} />
-				</Link>
+				{isAdmin && (
+					<>
+						<Link to="/post">
+							<Icon
+								id="fa-file-text-o"
+								margin="10px 15px 0 0"
+								onClick={() => {}}
+							/>
+						</Link>
+						<Link to="/users">
+							<Icon id="fa-users" margin="10px 0 0 0" onClick={() => {}} />
+						</Link>
+					</>
+				)}
 			</RightAligned>
 		</div>
 	);
