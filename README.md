@@ -1,3 +1,7 @@
+Запуск JSON-Server по адресу:
+- json-server --watch src/db.json --port 3004
+___
+
 Области хранения данных:
 
 -   DB на json-server
