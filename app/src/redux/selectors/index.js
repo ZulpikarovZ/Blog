@@ -6,3 +6,4 @@ export * from './select-user-id';
 export * from './select-users';
 export * from './select-user-session';
 export * from './select-modal';
+export * from './select-user-roleid';

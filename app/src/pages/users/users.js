@@ -1,41 +1,52 @@
 import styled from 'styled-components';
-import { StyledUserRow, UserItem, H2, Content } from '../../components';
+import { StyledUserRow, UserItem, H2, PrivateContent } from '../../components';
 import { useEffect, useState } from 'react';
 import { useServerRequest } from '../../hooks/use-server-request';
 import { ROLE } from '../../constants/role';
+import { checkAccess } from '../../utils/check-access';
+import { useSelector } from 'react-redux';
+import { selectUserRoleId } from '../../redux/selectors';
 
 const UsersContainer = ({ className }) => {
 	const [users, setUsers] = useState([]);
 	const [roles, setRoles] = useState([]);
 	const [errorMessage, setErrorMessage] = useState(null);
 	const [shouldUpdateUserList, setShouldUpdateUserList] = useState(false);
+	const userRole = useSelector(selectUserRoleId);
 
 	const serverRequest = useServerRequest();
 
 	new useEffect(() => {
-		setTimeout(() => {
-			Promise.all([serverRequest('fetchUsers'), serverRequest('fetchRoles')]).then(
-				([usersRes, rolesRes]) => {
-					if (usersRes.error || rolesRes.error) {
-						setErrorMessage(usersRes.error || rolesRes.error);
-						return;
-					}
-					setUsers(usersRes.res);
-					setRoles(rolesRes.res);
-				},
-			);
-		}, 10);
+		if (!checkAccess([ROLE.ADMIN], userRole)) {
+			return;
+		}
+
+		Promise.all([serverRequest('fetchUsers'), serverRequest('fetchRoles')]).then(
+			([usersRes, rolesRes]) => {
+				if (usersRes.error || rolesRes.error) {
+					setErrorMessage(usersRes.error || rolesRes.error);
+					return;
+				}
+
+				setUsers(usersRes.res);
+				setRoles(rolesRes.res);
+			},
+		);
 	}, [shouldUpdateUserList]);
 
 	const onUserRemove = (userId) => {
+		if (!checkAccess([ROLE.ADMIN], userRole)) {
+			return;
+		}
+
 		serverRequest('removeUser', userId).then(() =>
 			setShouldUpdateUserList(!shouldUpdateUserList),
 		);
 	};
 
 	return (
-		<div className={className}>
-			<Content error={errorMessage}>
+		<PrivateContent access={[ROLE.ADMIN]} serverError={errorMessage}>
+			<div className={className}>
 				<H2>Пользователи</H2>
 				<StyledUserRow className="user-header-row">
 					<div className="table-login">Логин</div>
@@ -50,8 +61,8 @@ const UsersContainer = ({ className }) => {
 						onUserRemove={() => onUserRemove(user.id)}
 					/>
 				))}
-			</Content>
-		</div>
+			</div>
+		</PrivateContent>
 	);
 };
 

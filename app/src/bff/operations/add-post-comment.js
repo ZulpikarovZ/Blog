@@ -5,7 +5,7 @@ import { sessions } from '../sessions';
 export const addPostComment = async (hash, postId, userId, content) => {
 	const accessRoles = [ROLE.ADMIN, ROLE.MODER, ROLE.READER];
 
-	const access = sessions.access(hash, accessRoles);
+	const access = await sessions.access(hash, accessRoles);
 
 	if (!access) {
 		return {
